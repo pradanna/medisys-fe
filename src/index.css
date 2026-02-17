@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette Medisys - Clean & Professional */
+  --color-primary: #5a66d2;
+  --color-primary-hover: #4752b8;
+  --color-bg-app: #f8f9fd;
+  --color-text-heading: #1f2036;
+  --color-text-body: #717691;
+
+  /* Radius */
+  --radius-xl: 1rem;
+}
+
+/* Reset dasar */
+body {
+  background-color: var(--color-bg-app);
+  color: var(--color-text-body);
+  font-family: "Inter", system-ui, sans-serif;
+}
