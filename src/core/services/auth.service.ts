@@ -10,7 +10,6 @@ export class AuthService {
   }
 
   async login(credentials: LoginRequest): Promise<UserCredentials> {
-    console.log('cek login');
     const userCredentials = await this.authRepository.login(credentials);
     this.authRepository.saveSession(userCredentials);
     return userCredentials;
