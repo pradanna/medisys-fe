@@ -15,6 +15,8 @@ Aplikasi frontend untuk sistem informasi manajemen rumah sakit (Medisys), dibang
 - [Menjalankan Aplikasi](#menjalankan-aplikasi)
 - [Script yang Tersedia](#script-yang-tersedia)
 - [Panduan Pengembangan](#panduan-pengembangan)
+- [Komponen Reusable](#komponen-reusable)
+- [Storybook](#storybook)
 - [Konvensi Kode](#konvensi-kode)
 
 ---
@@ -56,6 +58,7 @@ Aplikasi frontend untuk sistem informasi manajemen rumah sakit (Medisys), dibang
 | Prettier 3  | Code formatter                    |
 | Husky       | Git hooks                         |
 | Lint-staged | Pre-commit linting otomatis       |
+| Storybook   | UI component explorer & testing   |
 
 ---
 
@@ -146,6 +149,9 @@ medisys-fe/
 │   ├── main.tsx                   # Entry point aplikasi
 │   └── index.css                  # Global styles & Tailwind theme
 │
+├── .storybook/                    # Konfigurasi Storybook
+│   ├── main.ts                    # Entry addon & framework
+│   └── preview.ts                 # Global decorator & CSS import
 ├── .env.example                   # Contoh konfigurasi environment
 ├── vite.config.ts
 ├── tsconfig.app.json
@@ -213,13 +219,15 @@ npm run preview
 
 ## Script yang Tersedia
 
-| Script    | Perintah               | Keterangan                                     |
-| --------- | ---------------------- | ---------------------------------------------- |
-| `dev`     | `vite`                 | Jalankan dev server dengan HMR                 |
-| `build`   | `tsc -b && vite build` | Type check lalu build production               |
-| `lint`    | `eslint .`             | Jalankan ESLint                                |
-| `preview` | `vite preview`         | Preview build production secara lokal          |
-| `prepare` | `husky`                | Setup Git hooks (auto dijalankan saat install) |
+| Script            | Perintah                | Keterangan                                     |
+| ----------------- | ----------------------- | ---------------------------------------------- |
+| `dev`             | `vite`                  | Jalankan dev server dengan HMR                 |
+| `build`           | `tsc -b && vite build`  | Type check lalu build production               |
+| `lint`            | `eslint .`              | Jalankan ESLint                                |
+| `preview`         | `vite preview`          | Preview build production secara lokal          |
+| `prepare`         | `husky`                 | Setup Git hooks (auto dijalankan saat install) |
+| `storybook`       | `storybook dev -p 6006` | Jalankan Storybook di port 6006                |
+| `build-storybook` | `storybook build`       | Build Storybook menjadi static site            |
 
 ---
 
@@ -284,6 +292,162 @@ export const useNamaFitur = () => {
 
 ---
 
+## Komponen Reusable
+
+Komponen UI dasar (atom) ditempatkan di `src/presentation/components/ui/` dengan struktur satu folder per komponen.
+
+### Struktur Folder
+
+```
+src/presentation/components/ui/
+└── button/
+    ├── Button.tsx              # Komponen utama
+    ├── button.variants.ts      # Definisi varian CVA
+    └── Button.stories.tsx      # Story Storybook (co-located)
+```
+
+### Membuat Komponen Baru
+
+**1. Buat file varian dengan Class Variance Authority (CVA)**
+
+```typescript
+// src/presentation/components/ui/nama-komponen/nama-komponen.variants.ts
+import { cva } from 'class-variance-authority';
+
+export const namaKomponenVariants = cva('base-class-tailwind-di-sini', {
+  variants: {
+    variant: {
+      primary: 'bg-primary-500 text-white',
+      accent: 'bg-accent-500 text-black',
+    },
+    size: {
+      large: 'px-4 py-3 text-md',
+      normal: 'px-3 py-2 text-sm',
+      small: 'px-2 py-1 text-xs',
+    },
+  },
+  defaultVariants: {
+    variant: 'primary',
+    size: 'normal',
+  },
+});
+```
+
+**2. Buat komponen React**
+
+```typescript
+// src/presentation/components/ui/nama-komponen/NamaKomponen.tsx
+import React from 'react';
+import { cn } from '@/presentation/utils/cn';
+import { namaKomponenVariants } from './nama-komponen.variants';
+import type { VariantProps } from 'class-variance-authority';
+
+interface NamaKomponenProps extends VariantProps<typeof namaKomponenVariants> {
+  // tambah props spesifik di sini
+}
+
+const NamaKomponen: React.FC<NamaKomponenProps> = ({
+  variant = 'primary',
+  size = 'normal',
+}) => {
+  return (
+    <div className={cn(namaKomponenVariants({ variant, size }))}>
+      {/* konten komponen */}
+    </div>
+  );
+};
+
+export default NamaKomponen;
+```
+
+> `cn()` adalah helper dari `class-variance-authority` + `tailwind-merge` untuk menggabungkan class Tailwind tanpa konflik.
+
+---
+
+## Storybook
+
+Storybook digunakan untuk mengembangkan, mendokumentasikan, dan menguji komponen UI secara terisolasi.
+
+### Menjalankan Storybook
+
+```bash
+# Jalankan Storybook di http://localhost:6006
+npm run storybook
+
+# Build Storybook menjadi static site
+npm run build-storybook
+```
+
+### Membuat Story
+
+File story ditempatkan **co-located** di folder yang sama dengan komponen (`NamaKomponen.stories.tsx`).
+
+**Struktur dasar story:**
+
+```typescript
+// src/presentation/components/ui/nama-komponen/NamaKomponen.stories.tsx
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
+import NamaKomponen from './NamaKomponen';
+
+const meta = {
+  title: 'UI/NamaKomponen', // Grup/Nama di sidebar Storybook
+  component: NamaKomponen,
+  parameters: {
+    layout: 'centered', // 'centered' | 'fullscreen' | 'padded'
+  },
+  tags: ['autodocs'], // Generate halaman docs otomatis
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['primary', 'accent'],
+    },
+  },
+  args: {
+    onClick: fn(), // Spy fungsi untuk Actions panel
+  },
+} satisfies Meta<typeof NamaKomponen>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// Setiap export = satu story/tampilan di sidebar
+export const Default: Story = {
+  args: {
+    variant: 'primary',
+  },
+};
+
+export const Accent: Story = {
+  args: {
+    variant: 'accent',
+  },
+};
+```
+
+### Pengelompokan Story
+
+Gunakan separator `/` pada `title` untuk membuat hierarki di sidebar:
+
+| `title`           | Tampilan di Sidebar |
+| ----------------- | ------------------- |
+| `'UI/Button'`     | UI → Button         |
+| `'UI/Form/Input'` | UI → Form → Input   |
+| `'Shared/Modal'`  | Shared → Modal      |
+
+### Konvensi Penamaan Story
+
+| Story          | Kapan Digunakan                             |
+| -------------- | ------------------------------------------- |
+| `Default`      | Tampilan default komponen                   |
+| `Variant/Nama` | Setiap varian visual (Primary, Accent, dll) |
+| `Size/Nama`    | Setiap ukuran (Large, Normal, Small)        |
+| `State/Nama`   | State khusus (Disabled, Loading, Error)     |
+| `Icon/Nama`    | Kombinasi dengan ikon                       |
+| `Playground`   | Story interaktif dengan semua kontrol aktif |
+
+---
+
 ## Konvensi Kode
 
 ### Penamaan File
@@ -297,6 +461,7 @@ export const useNamaFitur = () => {
 | DTO                  | `kebab-case.dto.ts`        | `login.dto.ts`               |
 | Mapper               | `kebab-case.mapper.ts`     | `auth.mapper.ts`             |
 | Validator            | `kebab-case.validator.ts`  | `login.validator.ts`         |
+| Story Storybook      | `NamaKomponen.stories.tsx` | `Button.stories.tsx`         |
 
 ### Path Alias
 
