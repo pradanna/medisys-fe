@@ -1,5 +1,5 @@
 import type { UserCredentials } from '@/core/entities';
-import type { AuthRepository } from '@/core/repositories/auth.repository';
+import type { AuthRepository } from '@/core/repositories';
 import type { LoginRequest } from '@/core/schemas';
 import type {
   APIResponse,
@@ -8,7 +8,8 @@ import type {
 } from '@/infrastructure/dto';
 import { AuthMapper } from '@/infrastructure/mappers';
 import api from '@/infrastructure/sources/api/api';
-import { handleApiError } from '../utils/errors';
+import { handleApiError } from '@/infrastructure/utils/errors';
+import { BrowserStorage, STORAGE_KEYS } from '@/infrastructure/sources/storage';
 
 /**
  * Implementasi HTTP dari {@link AuthRepository} yang berkomunikasi
@@ -39,5 +40,16 @@ export class ApiAuthRepository implements AuthRepository {
     } catch (error) {
       throw handleApiError(error);
     }
+  }
+
+  saveSession(userCredentials: UserCredentials): void {
+    BrowserStorage.set<string>(
+      STORAGE_KEYS.ACCESS_TOKEN,
+      userCredentials.accessToken
+    );
+    BrowserStorage.set<string>(
+      STORAGE_KEYS.REFRESH_TOKEN,
+      userCredentials.refreshToken
+    );
   }
 }
