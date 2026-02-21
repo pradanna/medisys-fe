@@ -4,12 +4,12 @@ import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { authService } from '@/infrastructure/providers';
-import { UserCredentials } from '@/core/entities';
+import type { UserCredentials } from '@/core/entities';
 import type { LoginRequest } from '@/core/schemas';
 import type { AppError } from '@/infrastructure/utils/errors';
 
 export const useLogin = () => {
-  const navigate = useNavigate();
+  const _navigate = useNavigate();
 
   const {
     handleSubmit,

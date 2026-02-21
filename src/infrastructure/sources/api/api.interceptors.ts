@@ -1,7 +1,7 @@
 import axios, {
-  AxiosError,
   type InternalAxiosRequestConfig,
   type AxiosResponse,
+  type AxiosError,
 } from 'axios';
 import { type AxiosInterceptors } from './api.provider';
 import type { RefreshTokenDTO } from '@/infrastructure/dto';

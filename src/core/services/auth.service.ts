@@ -1,6 +1,6 @@
 import type { AuthRepository } from '@/core/repositories';
 import type { LoginRequest } from '@/core/schemas';
-import { UserCredentials } from '@/core/entities';
+import type { UserCredentials } from '@/core/entities';
 
 export class AuthService {
   private readonly authRepository: AuthRepository;

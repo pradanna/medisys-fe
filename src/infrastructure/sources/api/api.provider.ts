@@ -2,9 +2,9 @@ import axios, {
   type AxiosInstance,
   type InternalAxiosRequestConfig,
   type AxiosResponse,
-  AxiosError,
+  type AxiosError,
   type CreateAxiosDefaults,
-} from "axios";
+} from 'axios';
 
 /**
  * Interface untuk mendefinisikan interceptors.
