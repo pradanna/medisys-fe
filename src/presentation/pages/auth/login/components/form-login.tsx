@@ -1,12 +1,13 @@
 import { useLogin } from '@/presentation/hooks/auth';
 import { Button } from '@/presentation/components/ui/button';
+import { Textfield } from '@/presentation/components/ui/textfield';
 
 const FormLogin = () => {
   const { errors, register, onSubmit } = useLogin();
   return (
-    <div className="block">
+    <div className="block w-64">
       <div className="mb-3">
-        <input
+        <Textfield
           type="email"
           {...register('email')}
           className="border border-gray-400"
