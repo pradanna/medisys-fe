@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from './storage.keys';
+import type { STORAGE_KEYS } from './storage.keys';
 
 type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
 

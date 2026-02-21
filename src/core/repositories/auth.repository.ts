@@ -1,4 +1,4 @@
-import { UserCredentials } from '@/core/entities';
+import type { UserCredentials } from '@/core/entities';
 import type { LoginRequest } from '@/core/schemas';
 
 export interface AuthRepository {
