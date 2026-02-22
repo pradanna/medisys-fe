@@ -1,6 +1,7 @@
 import { useLogin } from '@/presentation/hooks/auth';
 import { Button } from '@/presentation/components/ui/button';
 import { Textfield } from '@/presentation/components/ui/textfield';
+import { Passwordfield } from '@/presentation/components/ui/passwordfield';
 
 const FormLogin = () => {
   const { errors, register, onSubmit } = useLogin();
@@ -17,8 +18,7 @@ const FormLogin = () => {
         )}
       </div>
       <div className="mb-3">
-        <input
-          type="password"
+        <Passwordfield
           {...register('password')}
           className="border border-gray-400"
         />
