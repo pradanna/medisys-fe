@@ -9,7 +9,7 @@ import type { LoginRequest } from '@/core/schemas';
 import type { AppError } from '@/infrastructure/utils/errors';
 
 export const useLogin = () => {
-  const _navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -29,11 +29,12 @@ export const useLogin = () => {
     LoginRequest
   >({
     mutationFn: (data) => authService.login(data),
-    onSuccess: (userCredentials) => {
-      console.log(userCredentials);
+    onSuccess: () => {
+      // console.log(userCredentials);
+      navigate('/dashboard');
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
+      navigate('/dashboard');
     },
   });
 
