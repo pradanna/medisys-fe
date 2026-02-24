@@ -1,5 +1,9 @@
 import { HospitalInstallation } from '@/core/entities';
-import type { HospitalInstallationResponseDTO } from '@/infrastructure/dto';
+import type { HospitalInstallationCreate } from '@/core/schemas/hospital-installation.schema';
+import type {
+  HospitalInstallationCreateRequestDTO,
+  HospitalInstallationResponseDTO,
+} from '@/infrastructure/dto';
 
 export class HospitalInstallationMapper {
   static toEntity(
@@ -17,5 +21,15 @@ export class HospitalInstallationMapper {
     entries: HospitalInstallationResponseDTO[]
   ): HospitalInstallation[] {
     return entries.map(HospitalInstallationMapper.toEntity);
+  }
+
+  static toSchemaCreate(
+    entry: HospitalInstallationCreate
+  ): HospitalInstallationCreateRequestDTO {
+    return {
+      code: entry.code,
+      name: entry.name,
+      is_active: entry.isActive,
+    };
   }
 }

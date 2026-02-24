@@ -4,3 +4,9 @@ export interface HospitalInstallationResponseDTO {
   name: string;
   isActive: boolean;
 }
+
+export interface HospitalInstallationCreateRequestDTO {
+  code: string;
+  name: string;
+  is_active: boolean;
+}

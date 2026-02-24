@@ -1,6 +1,9 @@
 import type { HospitalInstallation } from '@/core/entities';
 import type { HospitalInstallationRepository } from '@/core/repositories';
-import type { HospitalInstallationQuery } from '@/core/schemas/hospital-installation.schema';
+import type {
+  HospitalInstallationCreate,
+  HospitalInstallationQuery,
+} from '@/core/schemas/hospital-installation.schema';
 import type { PaginatedResult } from '@/core/utils/pagination';
 import { AppError } from '@/core/utils/errors';
 import { handleApiError } from '@/infrastructure/utils/errors';
@@ -18,6 +21,20 @@ const hospitalInstallationListValidator = z.array(
 );
 
 export class ApiHospitalInstallationRepository implements HospitalInstallationRepository {
+  async createHospitalInstallation(
+    schema: HospitalInstallationCreate
+  ): Promise<void> {
+    try {
+      const payload = HospitalInstallationMapper.toSchemaCreate(schema);
+      const response = await api.post<APIResponse<unknown>>(
+        '/hospital-installation',
+        payload
+      );
+      console.log(response);
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  }
   async getAllHospitalInstallaion(
     params: HospitalInstallationQuery
   ): Promise<PaginatedResult<HospitalInstallation>> {

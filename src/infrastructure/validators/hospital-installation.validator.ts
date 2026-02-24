@@ -7,3 +7,9 @@ export const hospitalInstallationResponseValidator = z.object({
   code: z.string().min(1, 'data code wajib ada'),
   isActive: z.boolean('data is active tidak valid'),
 }) satisfies z.ZodType<HospitalInstallationResponseDTO>;
+
+export const hospitalInstallationCreateValidator = z.object({
+  name: z.string().min(1, 'kolom nama instalasi wajib diisi'),
+  code: z.string().min(1, 'kolom code wajib diisi'),
+  isActive: z.boolean('kolom status tidak valid'),
+});

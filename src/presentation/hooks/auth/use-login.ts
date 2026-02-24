@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { authService } from '@/infrastructure/providers';
 import type { UserCredentials } from '@/core/entities';
 import type { LoginRequest } from '@/core/schemas';
-import type { AppError } from '@/infrastructure/utils/errors';
+import type { AppError } from '@/core/utils/errors';
 
 export const useLogin = () => {
   const navigate = useNavigate();
