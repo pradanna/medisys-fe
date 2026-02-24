@@ -1,7 +1,7 @@
 import { UserCredentials } from '@/core/entities';
 import type { LoginRequest } from '@/core/schemas';
 import type { LoginRequestDTO, LoginResponseDTO } from '@/infrastructure/dto';
-import { AppError } from '@/infrastructure/utils/errors';
+import { AppError } from '@/core/utils/errors';
 
 export class AuthMapper {
   static toRequest(schema: LoginRequest): LoginRequestDTO {

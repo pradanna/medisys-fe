@@ -9,7 +9,9 @@ export default function AppLayout() {
         <AppSidebar />
         <AppNavbar />
         <section className="ps-72 pt-16 bg-[#F8FAFC]">
-          <Outlet />
+          <div className="w-full p-6">
+            <Outlet />
+          </div>
         </section>
       </div>
     </main>
