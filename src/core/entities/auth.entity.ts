@@ -1,12 +1,16 @@
-// Bentuk data User yang murni (bersih dari atribut API yang tidak perlu)
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-}
+export class UserCredentials {
+  readonly accessToken: string;
+  readonly refreshToken: string;
+  readonly userInfo: {
+    id: string;
+    email: string;
+    username: string;
+    roles: string[];
+  };
 
-export interface AuthSession {
-  user: User;
-  token: string;
+  constructor(props: UserCredentials) {
+    this.accessToken = props.accessToken;
+    this.refreshToken = props.refreshToken;
+    this.userInfo = props.userInfo;
+  }
 }
