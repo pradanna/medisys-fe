@@ -1,47 +1,55 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonVariants = cva(
-  'flex items-center justify-center px-3 py-2.5 cursor-pointer transition-color ease-in-out duration-300',
+  // Base Class: Style yang selalu ada
+  'flex items-center justify-center cursor-pointer transition-all ease-in-out duration-300 font-medium outline-none focus:ring-2 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.98]',
   {
     variants: {
       variant: {
+        // --- SOLID VARIANTS ---
         primary:
-          'bg-primary-500 text-button-primary border border border-primary-500 hover:bg-primary-600 hover:border-primary-600',
+          'bg-primary-500 text-white border border-primary-500 hover:bg-primary-600 hover:border-primary-600 focus:ring-primary-500/50',
         accent:
-          'bg-accent-500 text-button-accent border border-accent-500 hover:bg-accent-600 hover:border-accent-600',
+          'bg-accent-500 text-white border border-accent-500 hover:bg-accent-600 hover:border-accent-600 focus:ring-accent-500/50',
+        danger:
+          'bg-red-500 text-white border border-red-500 hover:bg-red-600 hover:border-red-600 focus:ring-red-500/50',
+        success:
+          'bg-emerald-500 text-white border border-emerald-500 hover:bg-emerald-600 hover:border-emerald-600 focus:ring-emerald-500/50',
+        warning:
+          'bg-orange-500 text-white border border-orange-500 hover:bg-orange-600 hover:border-orange-600 focus:ring-orange-500/50',
+
+        // --- OUTLINED VARIANTS ---
+        'primary-outlined':
+          'bg-transparent text-primary-500 border border-primary-500 hover:bg-primary-50 focus:ring-primary-500/50',
+        'accent-outlined':
+          'bg-transparent text-accent-500 border border-accent-500 hover:bg-accent-50 focus:ring-accent-500/50',
+        'danger-outlined':
+          'bg-transparent text-red-500 border border-red-500 hover:bg-red-50 focus:ring-red-500/50',
+        'success-outlined':
+          'bg-transparent text-red-500 border border-emerald-500 hover:bg-emerald-50 focus:ring-emerald-500/50',
+        'warning-outlined':
+          'bg-transparent text-red-500 border border-orange-500 hover:bg-orange-50 focus:ring-orange-500/50',
+
+        // --- GHOST / TEXT ---
+        ghost:
+          'bg-transparent text-gray-600 hover:bg-gray-100 border-transparent',
       },
       size: {
-        large: 'gap-1.5 px-4 py-3 text-md rounded-md',
-        normal: 'gap-1.5 px-3 py-2 text-sm rounded-sm',
-        small: 'gap-0.75 px-2.5 py-1.5 text-xs rounded-sm',
+        large: 'gap-2 px-6 py-3 text-base rounded-xl',
+        normal: 'gap-1.5 px-4 py-2.5 text-sm rounded-lg',
+        small: 'gap-1 px-3 py-1.5 text-xs rounded-md',
+        icon: 'p-2.5 rounded-lg', // Khusus button yang hanya berisi icon
       },
-      disabled: {
-        true: 'cursor-not-allowed bg-gray-300 border-gray-300 text-gray-500',
-      },
+      // Loading state di sini hanya untuk mengubah cursor
       loading: {
-        true: 'cursor-not-allowed',
+        true: 'cursor-wait opacity-80',
+        false: '',
       },
     },
-    compoundVariants: [
-      {
-        loading: true,
-        disabled: true,
-        variant: 'primary',
-        class:
-          'cursor-not-allowed bg-primary-600 text-button-primary hover:bg-primary-600',
-      },
-      {
-        loading: true,
-        disabled: true,
-        variant: 'accent',
-        class:
-          'cursor-not-allowed bg-accent-600 text-button-accent hover:bg-accent-600',
-      },
-    ],
     defaultVariants: {
       variant: 'primary',
       size: 'normal',
-      disabled: false,
+      loading: false,
     },
   }
 );

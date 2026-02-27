@@ -13,34 +13,44 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'accent'],
+      options: [
+        'primary',
+        'accent',
+        'danger',
+        'success',
+        'warning',
+        'primary-outlined',
+        'accent-outlined',
+        'danger-outlined',
+        'success-outlined',
+        'warning-outlined',
+        'ghost',
+      ],
       description: 'Variant warna button',
     },
     size: {
       control: 'select',
-      options: ['large', 'normal', 'small'],
+      options: ['large', 'normal', 'small', 'icon'],
       description: 'Ukuran button',
     },
-    text: {
+    children: {
       control: 'text',
-      description: 'Label teks button',
+      description: 'Konten button',
     },
-    loadingText: {
-      control: 'text',
-      description: 'Teks saat loading',
+    isLoading: {
+      control: 'boolean',
+      description: 'Tampilkan state loading',
     },
     disabled: {
       control: 'boolean',
       description: 'Nonaktifkan button',
     },
-    loading: {
-      control: 'boolean',
-      description: 'Tampilkan state loading',
-    },
   },
   args: {
     onClick: fn(),
-    text: 'Button',
+    children: 'Button',
+    variant: 'primary',
+    size: 'normal',
   },
 } satisfies Meta<typeof Button>;
 
@@ -53,8 +63,7 @@ export const Primary: Story = {
   name: 'Primary',
   args: {
     variant: 'primary',
-    size: 'normal',
-    text: 'Primary Button',
+    children: 'Primary Button',
   },
 };
 
@@ -62,8 +71,46 @@ export const Accent: Story = {
   name: 'Accent',
   args: {
     variant: 'accent',
-    size: 'normal',
-    text: 'Accent Button',
+    children: 'Accent Button',
+  },
+};
+
+export const Danger: Story = {
+  name: 'Danger',
+  args: {
+    variant: 'danger',
+    children: 'Danger Button',
+  },
+};
+
+export const Success: Story = {
+  name: 'Success',
+  args: {
+    variant: 'success',
+    children: 'Success Button',
+  },
+};
+
+export const Warning: Story = {
+  name: 'Warning',
+  args: {
+    variant: 'warning',
+    children: 'Warning Button',
+  },
+};
+
+export const PrimaryOutlined: Story = {
+  name: 'Primary Outlined',
+  args: {
+    variant: 'primary-outlined',
+    children: 'Primary Outlined',
+  },
+};
+
+export const Ghost: Story = {
+  name: 'Ghost',
+  args: {
+    variant: 'ghost',
   },
 };
 
@@ -73,7 +120,7 @@ export const SizeLarge: Story = {
   name: 'Size / Large',
   args: {
     size: 'large',
-    text: 'Large Button',
+    children: 'Large Button',
   },
 };
 
@@ -81,7 +128,7 @@ export const SizeNormal: Story = {
   name: 'Size / Normal',
   args: {
     size: 'normal',
-    text: 'Normal Button',
+    children: 'Normal Button',
   },
 };
 
@@ -89,7 +136,7 @@ export const SizeSmall: Story = {
   name: 'Size / Small',
   args: {
     size: 'small',
-    text: 'Small Button',
+    children: 'Small Button',
   },
 };
 
@@ -98,7 +145,7 @@ export const SizeSmall: Story = {
 export const Disabled: Story = {
   name: 'State / Disabled',
   args: {
-    text: 'Disabled Button',
+    children: 'Disabled Button',
     disabled: true,
   },
 };
@@ -106,19 +153,8 @@ export const Disabled: Story = {
 export const Loading: Story = {
   name: 'State / Loading',
   args: {
-    text: 'Submit',
-    loading: true,
-    loadingText: 'Loading...',
-  },
-};
-
-export const LoadingAccent: Story = {
-  name: 'State / Loading Accent',
-  args: {
-    variant: 'accent',
-    text: 'Submit',
-    loading: true,
-    loadingText: 'Menyimpan...',
+    children: 'Please wait',
+    isLoading: true,
   },
 };
 
@@ -127,36 +163,48 @@ export const LoadingAccent: Story = {
 export const WithIconLeft: Story = {
   name: 'Icon / With Icon',
   args: {
-    text: 'Tambah Data',
-    icon: FiPlus,
+    children: (
+      <>
+        <FiPlus className="mr-2" /> Tambah Data
+      </>
+    ),
   },
 };
 
 export const WithIconSearch: Story = {
   name: 'Icon / Search',
   args: {
-    text: 'Cari',
-    icon: FiSearch,
     variant: 'accent',
+    children: (
+      <>
+        <FiSearch className="mr-2" /> Cari
+      </>
+    ),
   },
 };
 
 export const WithIconDownload: Story = {
   name: 'Icon / Download',
   args: {
-    text: 'Unduh',
-    icon: FiDownload,
     size: 'large',
+    children: (
+      <>
+        <FiDownload className="mr-2" /> Unduh
+      </>
+    ),
   },
 };
 
 export const WithIconDelete: Story = {
   name: 'Icon / Delete',
   args: {
-    text: 'Hapus',
-    icon: FiTrash2,
-    variant: 'accent',
+    variant: 'danger',
     size: 'small',
+    children: (
+      <>
+        <FiTrash2 className="mr-2" /> Hapus
+      </>
+    ),
   },
 };
 
@@ -165,11 +213,10 @@ export const WithIconDelete: Story = {
 export const Playground: Story = {
   name: 'Playground',
   args: {
-    text: 'Click Me',
+    children: 'Click Me',
     variant: 'primary',
     size: 'normal',
     disabled: false,
-    loading: false,
-    loadingText: 'Loading...',
+    isLoading: false,
   },
 };
